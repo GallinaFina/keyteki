@@ -471,6 +471,30 @@ class Player extends GameObject {
         }
     }
 
+// Add these methods to the Player class
+getKeymanderCard() {
+    return this.game.keymanderZone[this.game.players.indexOf(this)][0];
+}
+
+fundKeymander(card) {
+    let keymanderCard = this.getKeymanderCard();
+    if(keymanderCard && !keymanderCard.isFullyFunded()) {
+        keymanderCard.addFund(card);
+        return true;
+    }
+    return false;
+}
+
+refundKeymander(fundCard) {
+    let keymanderCard = this.getKeymanderCard();
+    if(keymanderCard) {
+        keymanderCard.addRefund(fundCard);
+        return true;
+    }
+    return false;
+}
+
+    
     /**
      * Moves a card from one location to another. This involves removing in from the list it's currently in, calling DrawCard.move (which changes
      * its location property), and then adding it to the list it should now be in
@@ -614,6 +638,31 @@ class Player extends GameObject {
             this[card.location] = this[card.location].filter((c) => c !== card);
         }
     }
+
+    // Add these methods after the existing card manipulation methods
+getKeymanderCard() {
+    return this.game.keymanderZone[this.game.getPlayers().indexOf(this)][0];
+}
+
+fundKeymander(card) {
+    let keymanderCard = this.getKeymanderCard();
+    if(keymanderCard && !keymanderCard.isFullyFunded()) {
+        keymanderCard.addFund(card);
+        this.game.addMessage('{0} funds their Keymander with {1}', this, card);
+        return true;
+    }
+    return false;
+}
+
+refundKeymander(fundCard) {
+    let keymanderCard = this.getKeymanderCard();
+    if(keymanderCard) {
+        keymanderCard.addRefund(fundCard);
+        this.game.addMessage('{0} refunds their Keymander with {1}', this, fundCard);
+        return true;
+    }
+    return false;
+}
 
     /**
      * Sets the passed cards as selected
