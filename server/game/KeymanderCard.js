@@ -29,7 +29,6 @@ class KeymanderCard extends Card {
     onLeavesPlay() {
         super.onLeavesPlay();
         this.timesRemoved++;
-        // Convert funds to refunds
         this.refunds = [...this.refunds, ...this.funds];
         this.funds = [];
     }
