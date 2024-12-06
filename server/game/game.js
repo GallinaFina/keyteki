@@ -67,6 +67,7 @@ class Game extends EventEmitter {
         this.playersAndSpectators = {};
         this.previousWinner = details.previousWinner;
         this.savedGameId = details.savedGameId;
+        this.keymanderZone = new Array(4).fill([]);
         this.showHand = details.showHand;
         this.started = false;
         this.swap = details.swap;
