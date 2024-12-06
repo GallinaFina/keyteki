@@ -20,6 +20,20 @@ class Phase extends BaseStepWithPipeline {
             return;
         }
 
+        // Add Keymander funding check at start of main phase
+        if(this.name === 'main' && this.game.activePlayer) {
+            let activePlayer = this.game.activePlayer;
+            let keymanderCard = activePlayer.keymanderZone[0];
+            
+            if(keymanderCard && !keymanderCard.isFullyFunded()) {
+                let topCard = activePlayer.deck[0];
+                if(topCard) {
+                    keymanderCard.addFund(topCard);
+                    activePlayer.deck.shift();
+                }
+            }
+        }
+
         this.game.raiseEvent('onPhaseStarted', { phase: this.name }, () => {
             this.game.currentPhase = this.name;
             if (this.name !== 'setup') {
